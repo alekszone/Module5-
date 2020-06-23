@@ -1,0 +1,24 @@
+[
+ {
+ "id":1,
+ "name":"aleks",
+ "surname": "aleks",
+ "email": "hello@gmail.com",
+ "dateOfBirth":"28.07.2020"
+},
+ 
+{
+ "id":2,
+ "name":"aleks",
+ "surname": "aleks",
+ "email": "hello@gmail.com",
+ "dateOfBirth":"28.07.2020"
+},
+{
+ "id":3,
+ "name":"aleks",
+ "surname": "aleks",
+ "email": "hello@gmail.com",
+ "dateOfBirth":"28.07.2020"
+}
+]
