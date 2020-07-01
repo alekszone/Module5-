@@ -8,7 +8,7 @@ const uniqid = require("uniqid")
 const { readDB, writeDB } = require("../../utilities")
 
 const booksJsonPath = path.join(__dirname, "books.json")
-const comenntJsonPath = path.join(__dirname,"comment.json")
+const comenntJsonPath = path.join(__dirname,"comments.json")
 
 const booksFolder = join(__dirname, "../../../public/img/books/")
 const upload = multer({})
@@ -42,9 +42,9 @@ booksRouter.get("/:asin", async (req, res, next) => {
     next("While reading books list a problem occurred!")
   }
 })
-booksRouter.get("/:asin/coments", async (req, res, next) => {
+booksRouter.get("/:asin/comments", async (req, res, next) => {
   try {
-    const comments = await readDB(comenntJsonPath)
+    const comments = await readDB( comenntJsonPath)
     const comm = comments.find((b) => b.bookID === req.params.asin)
     if (comm.length>0) {
       res.send(comm)
@@ -96,13 +96,13 @@ booksRouter.post(
   }
 )
 booksRouter.post(
-  "/:asin/coments",
+  "/:asin/comments",
   [
     check("bookID").exists().withMessage("Book Id "),
     check("username").exists().isLength({ min: 4 }).withMessage("You should specify the username"),
     check("text").exists().isLength({ min: 4 }).withMessage("You should ad some text")
 
-  ],
+ ],
   async (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -114,9 +114,7 @@ booksRouter.post(
     try {
     
       const comment = await readDB(comenntJsonPath)
-        const comments = { ...req.body, commentID:uniqid(), date: new Date()}
-      //get a previous element with the same asin
-    
+        const comments = {  commentID:uniqid(),...req.body, date: new Date()}
         comment.push(comments)
         await writeDB(comenntJsonPath, comment)
         res.status(201).send("Created comment")
@@ -166,7 +164,7 @@ booksRouter.delete("/:asin", async (req, res, next) => {
     next(error)
   }
 })
-booksRouter.delete("/coments/:id", async (req, res, next) => {
+booksRouter.delete("/comments/:id", async (req, res, next) => {
   try {
     const comments = await readDB(comenntJsonPath)
     const comment = comments.find((b) => b.commentID === req.params.id)

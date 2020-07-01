@@ -20,22 +20,22 @@ const staticFolderPath = join(__dirname, "../public")
 server.use(express.static(staticFolderPath))
 server.use(express.json())
 
-const whitelist =
-  process.env.NODE_ENV === "production"
-    ? [process.env.FE_URL]
-    : ["http://localhost:3000", "http://localhost:3002"]
+// const whitelist =
+//   process.env.NODE_ENV === "production"
+//     ? [process.env.FE_URL]
+//     : ["http://localhost:3000", "http://localhost:3002"]
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORSs"))
-    }
-  },
-}
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error("Not allowed by CORS"))
+//     }
+//   },
+// }
 
-server.use(cors(corsOptions))
+server.use(cors())
 
 server.use(helmet())
 
