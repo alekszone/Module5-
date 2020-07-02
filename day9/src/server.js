@@ -5,13 +5,17 @@ const listEndpoints = require("express-list-endpoints")
 const productsRouter = require("./services/products")
 const reviewsRouter = require("./services/reviews")
 const router = require("./services/xml")
+const YAML = require("yamljs")
+const swaggerUI = require("swagger-ui-express")
+const { join } = require("path")
+
 const {
   catchAllHandler,
   forbiddenHandler,
   unauthorizedHandler,
   notFoundHandler,
 } = require("./errorHandlers")
-
+const swaggerDocument = YAML.load(join(__dirname, "./api.yml"))
 const server = express()
 const port = process.env.PORT
 

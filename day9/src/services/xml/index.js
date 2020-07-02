@@ -8,13 +8,13 @@ const router = express.Router()
 router.get("/", async (req, res, next) => {
     const { ip } = req.query
     try {
-      const response = await axios.get(`http://www.dneonline.com/calculator.asmx?op=Add`)
+      const response = await axios.get(`http://www.geoplugin.net/xml.gp?ip=${ip}`)
       const xml = response.data
       console.log(xml)
       const options = { ignoreComment: true, alwaysChildren: true, compact: true }
       const result = xml2js(xml, options)
-    //   console.log("******************************************************")
-    //   console.log(result)
+      console.log("******************************************************")
+      console.log(result)
       res.send(`${ip} is located in ${result.geoPlugin.geoplugin_city._text}`)
     } catch (error) {
       next(error)
