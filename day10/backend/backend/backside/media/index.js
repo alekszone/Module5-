@@ -3,12 +3,12 @@ const fs = require ("fs-extra")
 const path = require("path")
 const router = express.Router()
 const uniqid = require("uniqid")
-const { check, validationResult } = require("express-validator")
+// const { check, validationResult } = require("express-validator")
 const multer = require("multer")
-const upload = multer({})
+
 const {join}  =require("path")
 
-
+const upload = multer({})
 
 const mediaFile = path.join(__dirname, "media.json")
 const reviewsFile = path.join(__dirname, "reviews.json")
@@ -21,7 +21,7 @@ const writeMedia = async (path, data) =>{
 await fs.writeJSON(path,data)
 } 
 
-const mediaFolder  = join (__dirname,"../../../img/media")
+const mediaFolder  = join( __dirname , "../../../media/img")
 
 
 
@@ -50,7 +50,7 @@ router.post(
     //   check("Poster").exists().withMessage("Poster is required"),
     // ],
     async (req, res) => {
-       const errors = validationResult(req)
+      //  const errors = validationResult(req)
       const media = await readMedia(mediaFile)
       const create = media.find((x) => x.imdbID === req.body.imdbID) //get a previous element with the same asin
         if (create) {
@@ -161,15 +161,17 @@ router.post(
       const fileName = req.params.imdbID + path.extname(req.file.originalname)
       const fileDestination = join(mediaFolder, fileName)
       
-      await fs.writeFile(fileDestination,req.file.buffer)
+      await fs.writeFile( fileDestination, req.file.buffer)
   
       const img = await readMedia(mediaFile)
       const image = img.find((b) => b.imdbID === req.params.imdbID)
+      console.log(image)
       if (image) {
         const position = img.indexOf(image)
         const imazhes = { ...image, Poster: "http://localhost:3001/media/img/"  + fileName} 
-        imge[position] = imazhes
-        await writeMedia(mediaFile, imge)
+        img[position] = imazhes
+        console.log(mediaFolder)
+        await writeMedia(mediaFile, img)
         res.status(200).send("Uploaded")
       } else {
        res.send("Could't upload")
