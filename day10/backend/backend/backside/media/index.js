@@ -3,7 +3,7 @@ const fs = require ("fs-extra")
 const path = require("path")
 const router = express.Router()
 const uniqid = require("uniqid")
-// const { check, validationResult } = require("express-validator")
+const { check, validationResult } = require("express-validator")
 const multer = require("multer")
 
 const {join}  =require("path")
@@ -50,7 +50,7 @@ router.post(
     //   check("Poster").exists().withMessage("Poster is required"),
     // ],
     async (req, res) => {
-      //  const errors = validationResult(req)
+       const errors = validationResult(req)
       const media = await readMedia(mediaFile)
       const create = media.find((x) => x.imdbID === req.body.imdbID) //get a previous element with the same asin
         if (create) {
@@ -101,9 +101,9 @@ router.post(
 
   router.get("/:imdbID/reviews", async (req, res)=>{
     const reviews = await readMedia(reviewsFile)
-    const review = reviews.filter(rev => rev.elementId === req.params.imdbID)
-   if(review){
-     res.send(review)  
+    const reviewers = reviews.filter((rev) => rev.elementId === req.params.imdbID)
+   if(reviewers){
+     res.send(reviewers)  
    }else{
        res.send("No review")
    }    
