@@ -21,7 +21,7 @@ const writeMedia = async (path, data) =>{
 await fs.writeJSON(path,data)
 } 
 
-const mediaFolder  = join (__dirname,"../../backend/img/media")
+const mediaFolder  = join (__dirname,"../../../img/media")
 
 
 
@@ -156,25 +156,25 @@ router.post(
   
 
   
-//   router.post("/:imdbID/upload", upload.single("avatar"), async (req, res) => {
+  router.post("/:imdbID/upload", upload.single("avatar"), async (req, res) => {
     
-//       const fileName = req.params.imdbID + path.extname(req.file.originalname)
-//       const fileDestination = join(mediaFolder, fileName)
+      const fileName = req.params.imdbID + path.extname(req.file.originalname)
+      const fileDestination = join(mediaFolder, fileName)
       
-//       await fs.writeFile(fileDestination,req.file.buffer)
+      await fs.writeFile(fileDestination,req.file.buffer)
   
-//       const books = await readMedia(mediaFile)
-//       const book = books.find((b) => b.imdbID === req.params.imdbID)
-//       if (book) {
-//         const position = books.indexOf(book)
-//         const bookUpdated = { ...book, img: "http://localhost:3000/img/media/"  + fileName} // In this way we can also implement the "patch" endpoint
-//         books[position] = bookUpdated
-//         await writeMedia(mediaFile, books)
-//         res.status(200).send("Updated")
-//       } else {
-//        res.send("Could't upload")
-//       }  
-//   })
+      const img = await readMedia(mediaFile)
+      const image = img.find((b) => b.imdbID === req.params.imdbID)
+      if (image) {
+        const position = img.indexOf(image)
+        const imazhes = { ...image, Poster: "http://localhost:3001/media/img/"  + fileName} 
+        imge[position] = imazhes
+        await writeMedia(mediaFile, imge)
+        res.status(200).send("Uploaded")
+      } else {
+       res.send("Could't upload")
+      }  
+  })
 
 
 module.exports = router
